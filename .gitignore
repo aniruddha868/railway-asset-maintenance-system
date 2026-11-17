@@ -1,0 +1,75 @@
+# ==============================================================================
+# Git Ignore Configuration - Railway Asset Maintenance System
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Terraform Local Artifacts & State Files
+# (CRITICAL: Never commit state files as they may expose sensitive secrets/keys)
+# ------------------------------------------------------------------------------
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfplan
+*.tfplan.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform Variable files containing real secrets / credentials
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Terraform CLI lock & CLI cache
+.terraform.lock.hcl.bak
+
+# ------------------------------------------------------------------------------
+# Security Credentials, Keys & Secrets
+# ------------------------------------------------------------------------------
+*.pem
+*.key
+*.pkcs12
+*.pfx
+*.p12
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+.azure/
+azure-credentials.json
+
+# ------------------------------------------------------------------------------
+# Script Execution Logs & Output Reports
+# ------------------------------------------------------------------------------
+**/logs/
+*.log
+system-monitor-*.log
+
+# ------------------------------------------------------------------------------
+# Operating System & IDE Specific Files
+# ------------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editors & IDEs
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~

@@ -1,0 +1,16 @@
+timestamp,asset_id,asset_type,location_km,temperature_celsius,vibration_rms_mm_s,pressure_bar,status,maintenance_recommended
+2026-11-17T06:00:00Z,TRK-MUM-PUN-010,TrackSegment,10.2,28.4,1.15,N/A,Normal,No
+2026-11-17T06:05:00Z,AXL-TRAIN-12001,AxleBoxBearing,14.5,42.1,2.05,N/A,Normal,No
+2026-11-17T06:10:00Z,PNT-TRAIN-12001,PantographContact,18.0,55.3,0.85,7.2,Normal,No
+2026-11-17T06:15:00Z,SWT-MUM-DIV-004,TrackSwitch,22.1,31.2,3.40,N/A,Warning,Yes
+2026-11-17T06:20:00Z,BOG-TRAIN-12002,BogieSuspension,25.8,38.9,4.85,N/A,Warning,Yes
+2026-11-17T06:25:00Z,TRK-MUM-PUN-028,TrackSegment,28.4,29.1,1.22,N/A,Normal,No
+2026-11-17T06:30:00Z,AXL-TRAIN-12002,AxleBoxBearing,33.0,78.6,6.92,N/A,Critical,Yes
+2026-11-17T06:35:00Z,PNT-TRAIN-12002,PantographContact,36.7,92.4,1.10,4.8,Critical,Yes
+2026-11-17T06:40:00Z,BRK-TRAIN-12001,AirBrakeSystem,41.2,34.0,0.40,5.1,Warning,Yes
+2026-11-17T06:45:00Z,TRK-MUM-PUN-045,TrackSegment,45.0,27.8,1.08,N/A,Normal,No
+2026-11-17T06:50:00Z,SWT-PUN-YRD-001,TrackSwitch,52.3,30.5,1.45,N/A,Normal,No
+2026-11-17T06:55:00Z,BOG-TRAIN-12003,BogieSuspension,58.6,36.2,2.10,N/A,Normal,No
+2026-11-17T07:00:00Z,AXL-TRAIN-12003,AxleBoxBearing,64.1,44.5,2.30,N/A,Normal,No
+2026-11-17T07:05:00Z,TRK-MUM-PUN-070,TrackSegment,70.5,33.1,4.20,N/A,Warning,Yes
+2026-11-17T07:10:00Z,PNT-TRAIN-12003,PantographContact,76.2,58.0,0.92,7.0,Normal,No

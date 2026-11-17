@@ -1,0 +1,111 @@
+# ==============================================================================
+# Workflow Name : Terraform & Scripts Quality Gate
+# Description   : Automated CI/CD pipeline for linting, formatting, and validating
+#                 Infrastructure as Code (Terraform) and Bash automation scripts.
+# Trigger Rules : Runs on Push, Pull Requests to main/master, or manual trigger.
+# Safety Notice : Validates code only. Does NOT deploy or touch cloud resources.
+# ==============================================================================
+
+name: "Terraform & Scripts Validation"
+
+# ------------------------------------------------------------------------------
+# Workflow Triggers (When does this automation run?)
+# ------------------------------------------------------------------------------
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - "railway-asset-maintenance-system/**"
+      - ".github/workflows/terraform-validation.yml"
+  pull_request:
+    branches:
+      - main
+      - master
+    paths:
+      - "railway-asset-maintenance-system/**"
+      - ".github/workflows/terraform-validation.yml"
+  workflow_dispatch: # Allows engineers to manually trigger the workflow from GitHub Web UI
+
+# ------------------------------------------------------------------------------
+# Concurrency Management
+# ------------------------------------------------------------------------------
+# Automatically cancels redundant in-progress builds when newer commits are pushed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# ------------------------------------------------------------------------------
+# Jobs Configuration
+# ------------------------------------------------------------------------------
+jobs:
+  # ----------------------------------------------------------------------------
+  # Job 1: Terraform Linting & Static Code Validation
+  # ----------------------------------------------------------------------------
+  terraform-validation:
+    name: "Validate Terraform (Azure)"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./railway-asset-maintenance-system/terraform
+
+    steps:
+      # Step 1: Check out git repository so runner has access to files
+      - name: "1. Checkout Source Code"
+        uses: actions/checkout@v4
+
+      # Step 2: Install HashiCorp Terraform CLI on the Ubuntu runner
+      - name: "2. Install Terraform CLI"
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      # Step 3: Check Terraform formatting (Fails if files violate canonical style)
+      - name: "3. Verify Code Formatting (terraform fmt)"
+        run: |
+          echo "Checking Terraform formatting style..."
+          terraform fmt -check -diff
+
+      # Step 4: Initialize provider plugins locally without needing remote state backend
+      - name: "4. Initialize Terraform (terraform init)"
+        run: |
+          echo "Initializing Terraform provider plugins..."
+          terraform init -backend=false
+
+      # Step 5: Validate syntactical correctness and resource configuration
+      - name: "5. Validate Terraform Syntax (terraform validate)"
+        run: |
+          echo "Validating Terraform code structure..."
+          terraform validate
+
+  # ----------------------------------------------------------------------------
+  # Job 2: Bash Shell Script Linting & Test Execution
+  # ----------------------------------------------------------------------------
+  bash-validation:
+    name: "Validate Bash Scripts"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./railway-asset-maintenance-system
+
+    steps:
+      # Step 1: Check out repository
+      - name: "1. Checkout Source Code"
+        uses: actions/checkout@v4
+
+      # Step 2: Make script executable
+      - name: "2. Set Script Permissions"
+        run: chmod +x scripts/system-monitor.sh
+
+      # Step 3: Syntax check with bash built-in parser (-n flag checks syntax without running)
+      - name: "3. Check Bash Syntax (bash -n)"
+        run: |
+          echo "Performing bash syntax check..."
+          bash -n scripts/system-monitor.sh
+
+      # Step 4: Test dry run of the script against sample sensor data
+      - name: "4. Execute Script Test Run (--sensors)"
+        run: |
+          echo "Testing sensor analyzer execution..."
+          ./scripts/system-monitor.sh --sensors
